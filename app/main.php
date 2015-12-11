@@ -65,6 +65,7 @@ try{
             $reply = exitCoversation($mask, $pdo);
             break;
         default:
+            $reply = "You have entered an invalid command please type FSTR HELP and send it to 77100 to get a list of commands.";
             break;
     }
 
@@ -92,7 +93,7 @@ function lookUp($loc, $mask, $pdo, $SENDER_URL, $APP_INFO){
         }
     }
     if($found){
-        return "You have been matched up with $user.\n Type FSTR M <message> and send it to 77000 to start the conversation.";
+        return "You have been matched up with $user.\n Type FSTR M <message> and send it to 77100 to start the conversation.";
     }else{
         return "Sorry no match found, please try again later.";
     }
@@ -159,7 +160,7 @@ function updateFriend($mask, $fmask, $pdo){
         );
     }
 
-    return "You have left succesfully the conversation.";
+    return "You have left successfully the conversation.";
 }
 
 function getMatchList($mask, $pdo){
@@ -229,7 +230,7 @@ function signUp($mask, $info, $pdo, $loc){
         );
 
         if($insert > 0 ) {
-            return "$info[2], you have been succesfully registered!\n Type FSTR HELP for usage commands.";
+            return "$info[2], you have been succesfully registered!\n Type FSTR HELP and send to 77100 for usage commands.";
         }else{
             return "Registration unsuccessful, please try again.";
         }
