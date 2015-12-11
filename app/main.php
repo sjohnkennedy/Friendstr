@@ -44,21 +44,20 @@ try{
         case "BZ":
             $smask = getFMask($mask, $pdo);
             if( $smask == 'nill'){
-                $txt = "You are not connected to anyone to BUZZ. Please try Looking Up for friends.";
-                $smask = $mask;
+                $reply = "You are not connected to anyone to BUZZ. Please try Looking Up for friends.";
             }else{
-                $txt = "Your Friendstr is BUZZING you. Reply Back!";
+                $reply = "Your Friendstr is BUZZING you. Reply Back!";
+                $mask = $smask;
             }
-            $reply = sendReply($txt, $smask, $SENDER_URL, $APP_INFO);
             break;
         case "M":
-            $txt = substr($message, 7);
             $smask = getFMask($mask, $pdo);
             if( $smask == 'nill'){
-                $txt = "You are not connected to anyone to send this message. Please try Looking Up for friends.";
-                $smask = $mask;
+                $reply = "You are not connected to anyone to send this message. Please try Looking Up for friends.";
+            }else{
+                $reply = substr($message, 7);
+                $mask = $smask;
             }
-            $reply = sendReply($txt, $smask, $SENDER_URL, $APP_INFO);
             break;
         case "EXIT":
             sendReply("Your friend has left the conversation.", getFMask($mask, $pdo), $SENDER_URL, $APP_INFO);
@@ -164,7 +163,7 @@ function updateFriend($mask, $fmask, $pdo){
 }
 
 function getMatchList($mask, $pdo){
-    $sql = "SELECT * FROM userinfo WHERE ( (mask != :mask) OR (lastFriendId != :mask) ) AND ( friendMask = :fmask )";
+    $sql = "SELECT * FROM userinfo WHERE ( (mask != :mask) AND (lastFriendId != :mask) ) AND ( friendMask = :fmask )";
     $query = $pdo->prepare($sql);
     $query->execute(
         array(
